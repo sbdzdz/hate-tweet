@@ -14,7 +14,7 @@ def remove_mentions(tweet):
     return tweet
 
 def remove_punctuation(tweet):
-    translation = str.maketrans(string.punctuation, ' ' * len(string.punctuation))
+    translation = str.maketrans('', '', string.punctuation)
     return tweet.translate(translation)
 
 def remove_urls(tweet):
@@ -29,8 +29,8 @@ def contract_whitespace(tweet):
 def clean(tweet):
     tweet = remove_hashtags(tweet)
     tweet = remove_mentions(tweet)
-    tweet = remove_punctuation(tweet)
     tweet = remove_urls(tweet)
+    tweet = remove_punctuation(tweet)
     tweet = contract_whitespace(tweet)
     return tweet.lower()
 
