@@ -1,4 +1,5 @@
 import re
+import string
 import tweepy
 from config import keys 
 
@@ -13,11 +14,24 @@ def remove_mentions(tweet):
     return tweet
 
 def remove_punctuation(tweet):
-    pass
+    translation = str.maketrans(string.punctuation, ' ' * len(string.punctuation))
+    return tweet.translate(translation)
+
+def remove_urls(tweet):
+    template = r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&amp;+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+'
+    tweet = re.sub(template, '', tweet)
+    return tweet
+
+def contract_whitespace(tweet):
+    tweet = re.sub("\s\s+", " ", tweet.strip())
+    return tweet 
 
 def clean(tweet):
     tweet = remove_hashtags(tweet)
     tweet = remove_mentions(tweet)
+    tweet = remove_punctuation(tweet)
+    tweet = remove_urls(tweet)
+    tweet = contract_whitespace(tweet)
     return tweet.lower()
 
 if __name__ == '__main__':
@@ -31,7 +45,6 @@ if __name__ == '__main__':
             try:
                 tweet = api.get_status(id)
                 text = clean(tweet.text)
-                tweets.write("{} {}".format(tweet.text, label))
                 tweets.write("{} {}".format(text, label))
             except tweepy.TweepError:
                 continue
