@@ -16,4 +16,4 @@ if __name__ == '__main__':
     choices = ['__label__hate', '__label__offensive', '__label__none']
     df['class'] = np.select(conditions, choices, default='__label__none')
     df['text'] = df['text'].apply(clean)
-    df[['class', 'text']].to_csv('data/tweets_davidson_short')
+    df[['class', 'text']].to_csv('data/tweets_davidson', sep='\t', index=False, header=False)
