@@ -1,7 +1,7 @@
 import numpy as np
-from keras.preprocessing import sequence
-from keras.models import Sequential
 from keras.layers import Dense, Dropout, Embedding, LSTM, Bidirectional
+from keras.models import Sequential
+from keras.preprocessing import sequence
 from keras.preprocessing.text import one_hot
 
 
@@ -10,9 +10,9 @@ def read_data(filename, vocabulary_size=10000):
     with open(filename, 'r') as f:
         for line in f:
             label, *tweet = line.split()
-            y.append(to_numeric(label))
             x.append(one_hot(' '.join(tweet), vocabulary_size))
-    return(x, y)
+            y.append(to_numeric(label))
+    return (x, y)
 
 def to_numeric(label):
     mapping = {'__label__none': 0, '__label__offensive': 1, '__label__hate': 2}
