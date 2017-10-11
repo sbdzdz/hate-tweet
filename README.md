@@ -13,4 +13,4 @@ dw configure
 Give the API key when prompted (you can get one [here](https://data.world)).
 
 ### Training
-...
+Run ``model.py`` to train the Keras bi-LSTM model. Tweak the input paths and hyperparameters if necessary.
