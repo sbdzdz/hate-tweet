@@ -2,32 +2,33 @@
 Detecting hate speech on Twitter.
 
 ### Getting the dataset
-Run `fetch_dataset.py` to fetch a dataset provided by [Davidson et al. (2017)](https://github.com/t-davidson/hate-speech-and-offensive-language). First, you need to download and configure the data.world package:
+First, you need to download and configure the data.world package:
 ```
 pip install datadotworld
 dw configure
 ```
 Give the API key when prompted (you can get one [here](https://data.world)).
 
+You can now fetch the dataset provided by [Davidson et al. (2017)](https://github.com/t-davidson/hate-speech-and-offensive-language): 
+```
+python fetch_dataset.py
+```
+This will create the `data` directory with three files inside: `tweets` (full dataset), `tweets_train` (training set), and `tweets_test` (test set). The split is 80/20, you can change it in `fetch_dataset.py`.
+
 ### Training the bag-of-tricks model
-First, install fastText:
+First, install the Python interface for fastText:
 ```
-git clone https://github.com/facebookresearch/fastText.git
-cd fastText
-make
+pip install cython
+pip install fasttext
 ```
-Train the classifier:
+Train the fastText model:
 ```
-./fasttext supervised -input ../data/train -output hate_speech_model
+python model_fasttext.py
 ```
-You can test the classifier on the test set:
-```
-./fasttext test hate_speech_model.bin ../data/test
-```
-or interactively:
-```
-./fasttext predict hate_speech_model.bin -
-```
+This will create a file `classifier.bin` in the `bin/` directory.
 
 ### Training the bi-LSTM model
-Run ``model.py`` to train the Keras bi-LSTM model. Tweak the input path if necessary.
+Train the Keras bi-LSTM model:
+```
+python model_keras.py
+```
