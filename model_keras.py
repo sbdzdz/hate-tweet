@@ -33,7 +33,7 @@ if __name__ == '__main__':
     maxlen = 30
     vocabulary_size = 20000
     batch_size = 32
-    path = 'data/tweets_davidson'
+    path = 'data/tweets'
     (x_train, y_train), (x_test, y_test) = read_data(path)
 
     x_train = sequence.pad_sequences(x_train, maxlen=maxlen)
