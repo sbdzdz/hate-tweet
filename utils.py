@@ -21,6 +21,7 @@ def remove_urls(tweet):
     return tweet
 
 def contract_whitespace(tweet):
+    tweet = tweet.replace('\n', ' ')
     tweet = re.sub("\s\s+", " ", tweet.strip())
     return tweet 
 
