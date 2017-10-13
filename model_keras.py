@@ -5,37 +5,28 @@ from keras.models import Sequential
 from keras.preprocessing import sequence
 from keras.preprocessing.text import one_hot
 
-
-def read_data(filename, vocabulary_size=10000, split=0.2):
-    split = max(1-split, split)
-    x_train, y_train, x_test, y_test = [], [], [], []
-    with open(filename, 'r') as f:
-        for line in f:
-            try:
-                label, tweet = line.split('\t')
-                tweet = tweet.strip()
-            except ValueError:
-                continue
-            if random.random() < split:
-                x_train.append(one_hot(tweet, vocabulary_size))
-                y_train.append(to_numeric(label))
-            else:
-                x_test.append(one_hot(tweet, vocabulary_size))
-                y_test.append(to_numeric(label))
-    return ((x_train, y_train), (x_test, y_test))
+def read_data(filename, vocabulary_size):
+    x, y = [], []
+    with open(filename, 'r') as tweets:
+        for line in tweets:
+            label, tweet = line.split('\t')
+            x.append(one_hot(tweet, vocabulary_size))
+            y.append(to_numeric(label))
+    return (x, y)
 
 def to_numeric(label):
     mapping = {'__label__none': 0, '__label__offensive': 1, '__label__hate': 2}
     return mapping.get(label, 0)
 
 if __name__ == '__main__':
-    max_features = 20000
-    maxlen = 30
-    vocabulary_size = 20000
+    max_features = 50000
+    maxlen = 10
     batch_size = 32
-    path = 'data/tweets'
-    (x_train, y_train), (x_test, y_test) = read_data(path)
+    train = 'data/tweets_train'
+    test = 'data/tweets_test'
 
+    x_train, y_train = read_data(train, max_features)
+    x_test, y_test = read_data(test, max_features)
     x_train = sequence.pad_sequences(x_train, maxlen=maxlen)
     x_test = sequence.pad_sequences(x_test, maxlen=maxlen)
     y_train = np.array(y_train)
