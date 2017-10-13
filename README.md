@@ -2,18 +2,16 @@
 Detecting hate speech on Twitter.
 
 ### Getting the dataset
-First, you need to download and configure the data.world package:
+First, you need to download and configure the data.world package (you can get an API key [here](https://data.world)):
 ```
 pip install datadotworld
 dw configure
 ```
-Give the API key when prompted (you can get one [here](https://data.world)).
-
 You can now fetch the dataset provided by [Davidson et al. (2017)](https://github.com/t-davidson/hate-speech-and-offensive-language): 
 ```
 python fetch_dataset.py
 ```
-This will create the `data` directory with three files inside: `tweets` (full dataset), `tweets_train` (training set), and `tweets_test` (test set). The split is 80/20, you can change it in `fetch_dataset.py`.
+This will create a `data` directory with three files inside: `tweets` (full dataset), `tweets_train` (training set), and `tweets_test` (test set).
 
 ### Training the bag-of-tricks model
 First, install the Python interface for fastText:
